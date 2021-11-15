@@ -1,0 +1,74 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        applicationId "com.example.test2"
+        minSdk 23
+        targetSdk 31
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+def buildPropertiesFile = rootProject.file("app/build.properties")
+def buildProperties = new Properties()
+file("build.properties").withInputStream{buildProperties.load(it)}
+
+def retrofit_gson = buildProperties.getProperty('retrofitGroup')+':'+buildProperties.getProperty('retrofitGsonName')+':'+buildProperties.getProperty('retrofitVersion')
+def retrofit = buildProperties.getProperty('retrofitGroup')+':'+buildProperties.getProperty('retrofitName')+':'+buildProperties.getProperty('retrofitVersion')
+def retrofitRx = buildProperties.getProperty('retrofitGroup')+':'+buildProperties.getProperty('retrofitRxJavaAdapterName')+':'+buildProperties.getProperty('retrofitVersion')
+def rxJava =  buildProperties.getProperty('rxGroup')+':'+buildProperties.getProperty('rxjavaName')+':'+buildProperties.getProperty('rxVersion')
+def rxAndroid = buildProperties.getProperty('rxGroup')+':'+buildProperties.getProperty('rxAndroidName')+':'+buildProperties.getProperty('rxVersion')
+def dagger = buildProperties.getProperty('daggerGroup')+':'+buildProperties.getProperty('daggerName')+':'+buildProperties.getProperty('daggerVersion')
+def daggerAndroidSupport = buildProperties.getProperty('daggerGroup')+':'+buildProperties.getProperty('daggerAndroidSupportName')+':'+buildProperties.getProperty('daggerVersion')
+def daggerCompiler = buildProperties.getProperty('daggerGroup')+':'+buildProperties.getProperty('daggerCompilerName')+':'+buildProperties.getProperty('daggerVersion')
+def daggerAndroidProcessor = buildProperties.getProperty('daggerGroup')+':'+buildProperties.getProperty('daggerAndroidProcessorName')+':'+buildProperties.getProperty('daggerVersion')
+def mockito = buildProperties.getProperty('mockitoGroup')+':'+buildProperties.getProperty('mockitoCoreName')+':'+buildProperties.getProperty('mockitoVersion')
+def mockitoInline = buildProperties.getProperty('mockitoGroup')+':'+buildProperties.getProperty('mockitoInlineName')+':'+buildProperties.getProperty('mockitoVersion')
+def mockitoTest = buildProperties.getProperty('mockitoGroup')+':'+buildProperties.getProperty('mockitoCoreTestingName')+':'+buildProperties.getProperty('mockitoVersion')
+def androidLifeCycle = buildProperties.getProperty('lifeCycleGroup')+':'+buildProperties.getProperty('lifeCycleName')+':'+buildProperties.getProperty('lifeCycleVersion')
+def androidLegacySupport = buildProperties.getProperty('legacyGroup')+':'+buildProperties.getProperty('legacyName')+':'+buildProperties.getProperty('legacyVersion')
+def androidTestCore = buildProperties.getProperty('testCoreGroup')+':'+buildProperties.getProperty('testCoreName')+':'+buildProperties.getProperty('testCoreVersion')
+dependencies {
+
+    annotationProcessor "$daggerCompiler"
+
+    implementation "$retrofit_gson"
+    implementation "$retrofit"
+    implementation "$retrofitRx"
+    implementation "$rxJava"
+    implementation "$rxAndroid"
+    implementation "$dagger"
+    testImplementation "$mockito"
+    testImplementation "$mockitoInline"
+    implementation "$androidLifeCycle"
+    implementation "$androidLegacySupport"
+
+
+    testImplementation "$androidTestCore"
+
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+}
